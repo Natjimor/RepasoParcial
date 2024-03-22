@@ -82,6 +82,20 @@ router.delete('/:id', (req, res) => {
     }
 });
 
+// Obtener todos los carros o filtrar por modelo
+router.get('/', (req, res) => {
+    const modelo = req.query.modelo; // Obtener el parámetro de consulta modelo
+    let carrosFiltrados = carros; // Inicialmente, todos los carros
+
+    // Filtrar carros por modelo si se proporciona el parámetro modelo
+    if (modelo) {
+        carrosFiltrados = carrosFiltrados.filter(carro => carro.detalles.modelo.toLowerCase() === modelo.toLowerCase());
+    }
+
+    res.status(200).json(carrosFiltrados);
+});
+
+
 router.delete('/', (req, res) => {
     carros.splice(0, carros.length); // Eliminar todos los carros
     res.status(204).end(); // Respuesta exitosa sin contenido
